@@ -1,37 +1,27 @@
-import { createStore } from 'redux'
-
-const initialState = {
-    number: 0,
-}
-
-const reducer = (prevState = initialState, action) => {
-    switch (action.type){
-        case 'COUNTER_ADD':
-            return { ...prevState, number : prevState.number + action.payload }
-        case 'COUNTER_SUB':
-            return { ...prevState, number : prevState.number - action.payload }
-        default:
-            return prevState;
-        }
-    }
-            
-const store = createStore(reducer)            
-            
+import { COUNTER_ADD, COUNTER_SUB } from "./store/actions.js"
+import store from "./store/index.js"      
             
 store.subscribe(() => {
-    console.log(store.getState())
+    console.log(store.getState()) //le pedimos que nos avise cada vez que hay un cambio
 })
 
-store.dispatch({
-    type: 'COUNTER_ADD',
-    payload: 1,
+const autoSum = (payload) => ({ //action creator for ADD
+    type: COUNTER_ADD,
+    payload: payload,
 })
 
-store.dispatch({
-    type: 'COUNTER_SUB',
-    payload: 1,
+const autoSub = (payload) => ({
+    type: COUNTER_SUB,
+    payload: payload,
 })
-store.dispatch({
-    type: 'COUNTER_ADD',
-    payload: 1,
-})
+
+store.dispatch(
+    autoSum(1)
+)
+
+store.dispatch(
+    autoSub(1)
+)
+store.dispatch(
+    autoSum(1)
+)
